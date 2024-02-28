@@ -38,8 +38,8 @@ period = n_years*365
 
 # Function to load stock data
 # ticker: Selected stock
-# st.cache: It will cache the data so that it does not have to download same data again and again.
-@st.cache
+# st.cache_data: It will cache the data so that it does not have to download same data again and again.
+@st.cache_data
 def load_data(ticker):
         # Using Yahoo Finance
         data = yf.download(ticker, START, TODAY)
