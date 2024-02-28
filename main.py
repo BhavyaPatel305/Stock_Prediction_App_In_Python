@@ -27,7 +27,7 @@ st.title("Stock Prediction App")
 stocks = ("AAPL", "GOOG", "MSFT", "GME")
 
 # Creating select box
-selected_stocks = st.selectbox("Select dataset for prediction", stocks)
+selected_stock = st.selectbox("Select dataset for prediction", stocks)
 
 # Slider to select the number of years for prediction
 # slider("label", start, end)
@@ -36,6 +36,18 @@ n_years = st.slider("Years of prediction:", 1, 4)
 # Calculate the period
 period = n_years*365
 
+# Function to load stock data
+# ticker: Selected stock
+def load_data(ticker):
+        # Using Yahoo Finance
+        data = yf.download(ticker, START, TODAY)
+        
+        # Data will be returned in a pandas dataframe
+        data.reset_index(inplace=True) # Resetting index: It will place date on the first column
+        
+        # return data
+        return data
 
-
-
+data_load_state = st.text("Load Data...")
+data = load_data(selected_stock)
+data_load_state.text("Loading Data...done!")
