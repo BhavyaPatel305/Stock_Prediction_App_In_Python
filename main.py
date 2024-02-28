@@ -82,7 +82,7 @@ plot_raw_data()
 
 # Forecasting with Prophet
 # Using Data and Close columns for forecasting
-df_train = data[['Data', 'Close']]
+df_train = data[['Date', 'Close']]
 
 # Renaming Columns as Prophet requires data in a certain format
 # According to Prophet Documentation:
