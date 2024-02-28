@@ -38,6 +38,8 @@ period = n_years*365
 
 # Function to load stock data
 # ticker: Selected stock
+# st.cache: It will cache the data so that it does not have to download same data again and again.
+@st.cache
 def load_data(ticker):
         # Using Yahoo Finance
         data = yf.download(ticker, START, TODAY)
@@ -51,3 +53,27 @@ def load_data(ticker):
 data_load_state = st.text("Load Data...")
 data = load_data(selected_stock)
 data_load_state.text("Loading Data...done!")
+
+# Raw Pandas Data Frame
+st.subheader('Raw Data')
+st.write(data.tail())
+
+# Plotting raw data
+def plot_raw_data():
+        # Creating plotly graph object
+        fig = go.Figure()
+        # X-axis: Date
+        # Y-axis: Open
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
+        
+        # X-axis: Date
+        # Y-axis: Close
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
+        
+        fig.layout.update(title_text="Time Series Data", xaxis_rangeslider_visible=True)
+        
+        # Plot the graph
+        st.plotly_chart(fig)
+        
+# Calling the function to plot raw data
+plot_raw_data()
