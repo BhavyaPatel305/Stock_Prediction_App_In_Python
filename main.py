@@ -106,3 +106,13 @@ forecast = m.predict(future)
 # Plot the data frame
 st.subheader('Forecast Data')
 st.write(forecast.tail())
+
+# Plotting Forecast Data
+st.write('Forecasting Data') # Label
+fig1 = plot_plotly(m, forecast) # Needs Model and forecast
+st.plotly_chart(fig1)
+
+st.write('Forecast Components') # Label
+# No need for plotly graph, just a normal graph
+fig2 = m.plot_components(forecast)
+st.write(fig2) # Not a plotly chart
