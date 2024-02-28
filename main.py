@@ -70,6 +70,7 @@ def plot_raw_data():
         # Y-axis: Close
         fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
         
+        # Slider to zoom in and out
         fig.layout.update(title_text="Time Series Data", xaxis_rangeslider_visible=True)
         
         # Plot the graph
@@ -77,3 +78,31 @@ def plot_raw_data():
         
 # Calling the function to plot raw data
 plot_raw_data()
+
+
+# Forecasting with Prophet
+# Using Data and Close columns for forecasting
+df_train = data[['Data', 'Close']]
+
+# Renaming Columns as Prophet requires data in a certain format
+# According to Prophet Documentation:
+# Data should be called as ds
+# Close should be called as y
+df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+
+# Creating Facebook Prophet Model
+m = Prophet()
+
+# Fit the data and start the training
+m.fit(df_train)
+
+# For forecast, need a dataframe that goes into the future
+# periods needs to be in no.of days
+future = m.make_future_dataframe(periods=period)
+
+# Predict the future dataframe
+forecast = m.predict(future)
+
+# Plot the data frame
+st.subheader('Forecast Data')
+st.write(forecast.tail())
